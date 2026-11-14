@@ -1,0 +1,211 @@
+<!doctype html>
+<html lang="uk">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Місця відпуску ЛЗ за електронним e-Рецептом</title>
+    <meta
+      name="description"
+      content="Місця відпуску ЛЗ за електронним e-Рецептом. Оберіть місто або область і препарат, щоб переглянути кількість погашених е-рецептів за останні 90 днів."
+    />
+    <meta name="robots" content="index, follow" />
+    <meta property="og:title" content="Місця відпуску ЛЗ за електронним e-Рецептом" />
+    <meta
+      property="og:description"
+      content="Дані НСЗУ про погашені е-рецепти за останні 90 днів. Пошук за містом, областю та препаратом."
+    />
+    <meta property="og:type" content="website" />
+    <link rel="icon" href="/assets/img/logos/logo.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="/styles.css" />
+    <script src="/pharmacies.js" defer></script>
+  </head>
+  <body>
+    <div class="wrapper">
+      <main class="main">
+        <div class="main__container">
+          <section>
+            <h2>Місця відпуску ЛЗ за електронним e-Рецептом</h2>
+            <div class="settings">
+              <div class="settings__wrap">
+                <label for="territory-mode">Шукати за</label>
+                <select id="territory-mode">
+                  <option value="city">Містом</option>
+                  <option value="region">Областю</option>
+                </select>
+              </div>
+              <div class="settings__wrap settings__wrap--flex" id="city-field">
+                <div class="settings__filter-wrap">
+                  <label for="city">Місто</label>
+                  <select id="city">
+                    <option value="custom" selected>Інший населений пункт…</option>
+                    <option value="kremenchuk">Кременчук</option>
+                    <option value="horishni-plavni">Горішні Плавні</option>
+                    <option value="kyiv">Київ</option>
+                    <option value="vinnytsia">Вінниця</option>
+                    <option value="dnipro">Дніпро</option>
+                    <option value="donetsk">Донецьк</option>
+                    <option value="zhytomyr">Житомир</option>
+                    <option value="zaporizhzhia">Запоріжжя</option>
+                    <option value="ivano-frankivsk">Івано-Франківськ</option>
+                    <option value="kropyvnytskyi">Кропивницький</option>
+                    <option value="luhansk">Луганськ</option>
+                    <option value="lutsk">Луцьк</option>
+                    <option value="lviv">Львів</option>
+                    <option value="mykolaiv">Миколаїв</option>
+                    <option value="odesa">Одеса</option>
+                    <option value="poltava">Полтава</option>
+                    <option value="rivne">Рівне</option>
+                    <option value="sumy">Суми</option>
+                    <option value="ternopil">Тернопіль</option>
+                    <option value="uzhhorod">Ужгород</option>
+                    <option value="kharkiv">Харків</option>
+                    <option value="kherson">Херсон</option>
+                    <option value="khmelnytskyi">Хмельницький</option>
+                    <option value="cherkasy">Черкаси</option>
+                    <option value="chernivtsi">Чернівці</option>
+                    <option value="chernihiv">Чернігів</option>
+                  </select>
+                </div>
+                <div class="settings__filter-wrap" id="custom-city-field" hidden>
+                  <label for="custom-city">Назва як на карті НСЗУ</label>
+                  <input id="custom-city" type="text" maxlength="200" placeholder="м. БОРИСПІЛЬ" />
+                </div>
+              </div>
+              <div class="settings__wrap settings__wrap--flex-checkbox" id="region-field" hidden>
+                <div class="settings__filter-wrap">
+                  <label for="region">Область</label>
+                  <select id="region">
+                    <option value="poltavska" selected>Полтавська область</option>
+                    <option value="vinnytska">Вінницька область</option>
+                    <option value="volynska">Волинська область</option>
+                    <option value="dnipropetrovska">Дніпропетровська область</option>
+                    <option value="donetska">Донецька область</option>
+                    <option value="zhytomyrska">Житомирська область</option>
+                    <option value="zakarpatska">Закарпатська область</option>
+                    <option value="zaporizka">Запорізька область</option>
+                    <option value="ivano-frankivska">Івано-Франківська область</option>
+                    <option value="kyivska">Київська область</option>
+                    <option value="kirovohradska">Кіровоградська область</option>
+                    <option value="luhanska">Луганська область</option>
+                    <option value="lvivska">Львівська область</option>
+                    <option value="mykolaivska">Миколаївська область</option>
+                    <option value="odeska">Одеська область</option>
+                    <option value="rivnenska">Рівненська область</option>
+                    <option value="sumska">Сумська область</option>
+                    <option value="ternopilska">Тернопільська область</option>
+                    <option value="kharkivska">Харківська область</option>
+                    <option value="khersonska">Херсонська область</option>
+                    <option value="khmelnytska">Хмельницька область</option>
+                    <option value="cherkaska">Черкаська область</option>
+                    <option value="chernivetska">Чернівецька область</option>
+                    <option value="chernihivska">Чернігівська область</option>
+                  </select>
+                </div>
+                <div class="settings__filter-wrap settings__filter-wrap--checkbox">
+                  <label for="exclude-center">Без обласного центру</label>
+                  <input class="settings__checkbox" id="exclude-center" type="checkbox" />
+                </div>
+              </div>
+              <div class="settings__wrap">
+                <label for="drug">Препарат</label>
+                <select id="drug">
+                  <option value="lercanidipine" selected>Лерканідипін</option>
+                  <option value="eplerenone">Еплеренон</option>
+                  <option value="indapamide-perindopril">Індапамід + периндоприл</option>
+                  <option value="amlodipine-indapamide-perindopril">Амлодипін + індапамід + периндоприл</option>
+                  <option value="ezetimibe-rosuvastatin">Езетиміб + розувастатин</option>
+                  <option value="aspirin-rosuvastatin">Ацетилсаліцилова кислота + розувастатин</option>
+                </select>
+              </div>
+              <div class="settings__wrap">
+                <label for="limit">Показати</label>
+                <select id="limit">
+                  <option value="25">25</option>
+                  <option value="50">50</option>
+                  <option value="75">75</option>
+                  <option value="100">100</option>
+                  <option value="250" selected>250</option>
+                  <option value="500">До 500</option>
+                </select>
+              </div>
+            </div>
+            <div class="settings-btns">
+              <button class="defaultButton" id="load-pharmacies" type="button">Показати аптеки</button>
+              <button class="defaultButton" id="theme-toggle" type="button">Змінити тему</button>
+            </div>
+            <p class="query-info" id="status" role="status"></p>
+            <figure>
+              <table>
+                <thead>
+                  <thead>
+                    <tr id="pharmacy-heading">
+                      <!-- <th scope="col">
+                        <button type="button" class="table-text-button" aria-expanded="true">
+                          <span class="table-text">№</span>
+                        </button>
+                      </th>
+                      <th scope="col">
+                        <button type="button" class="table-text-button" aria-expanded="true">
+                          <span class="table-text">Код закладу</span>
+                        </button>
+                      </th> -->
+                      <th scope="col">
+                        <button type="button" class="table-text-button" aria-expanded="true">
+                          <span class="table-text">Назва аптечного закладу</span>
+                        </button>
+                      </th>
+                      <th scope="col">
+                        <button type="button" class="table-text-button" aria-expanded="true">
+                          <span class="table-text">Назва місця відпуску</span>
+                        </button>
+                      </th>
+                      <th scope="col">
+                        <button type="button" class="table-text-button" aria-expanded="true">
+                          <span class="table-text">Адреса місця відпуску</span>
+                        </button>
+                      </th>
+                      <th scope="col">
+                        <button type="button" class="table-text-button" aria-expanded="true">
+                          <span class="table-text">Погашено за 90 днів</span>
+                        </button>
+                      </th>
+                      <th scope="col">
+                        <button type="button" class="table-text-button" aria-expanded="true">
+                          <span class="table-text">Останній погашений рецепт</span>
+                        </button>
+                      </th>
+                      <!-- <th scope="col">
+                        <button type="button" class="table-text-button" aria-expanded="true">
+                          <span class="table-text">Телефон місця відпуску</span>
+                        </button>
+                      </th>
+                      <th scope="col">
+                        <button type="button" class="table-text-button" aria-expanded="true">
+                          <span class="table-text">Перелік програм е-рецепту</span>
+                        </button>
+                      </th> -->
+                    </tr>
+                  </thead>
+                </thead>
+                <tbody id="pharmacy-rows"></tbody>
+              </table>
+            </figure>
+          </section>
+        </div>
+      </main>
+      <footer class="footer">
+        <div class="footer__container">
+          <p class="footer__copyright">© Copyright Місця відпуску ЛЗ за електронним e-Рецептом. Всі права збережено.</p>
+        </div>
+      </footer>
+      <div id="go-top-elem" class="go-top shown">
+        <button class="go-top__button" aria-label="scroll up">
+          <div class="go-upper-floor__img arrow-go-upper-floor">
+            <div class="arrow-go-upper-floor__stick"></div>
+          </div>
+        </button>
+      </div>
+    </div>
+    <script src="./script.js"></script>
+  </body>
+</html>

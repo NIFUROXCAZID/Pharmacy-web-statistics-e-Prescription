@@ -1,0 +1,101 @@
+// Мінімальна ширина сторінки
+$minWidth: 320;
+// Ширина полотна (макету)
+$maxWidth: 1440;
+// Ширина обмежуючого контейнера (0 = немає обмеження)
+$maxWidthContainer: 1140;
+// Загальний відступ у контейнера
+// (30 = по 15px ліворуч і праворуч, 0 = немає відступу)
+$containerPadding: 30;
+// Ширина спрацьовування першого брейкпоінту
+$containerWidth: $maxWidthContainer + $containerPadding;
+
+// Змінні основних медіа брейкпоінтів
+// Показуємо контент беспечно для усіх ПК моніторів
+$pc-adaptive: 1250;
+// Показуємо контент беспечно для усіх планшетів
+$tablet-adaptive: 991.98;
+// Показуємо контент беспечно для усіх великих мобільних
+$huge-mobile-adaptive: 767.98;
+// Стилі для маленьких мобільних
+$small-mobile-adaptive: 479.98;
+// Стилі для Конкретного хедеру
+$custom-header-adaptive: 1250;
+
+$general-border-radius: 16px;
+
+:root {
+  --custom-header-adaptive: #{$custom-header-adaptive};
+}
+
+// щоб працювало в стилях має бути тепер записано отак через css змінну
+// .header {background: var(--header-bg); // ✅}
+
+:root {
+  // Light theme
+  --header-bg: #e0ebfe;
+  --footer-bg: #e0ebfe;
+  --container-bg: #ffffff;
+  --main-bg: #e5e5e5;
+
+  --table-bg-1: #e0ebfe;
+  --table-bg-2: #f8fbff;
+
+  --main-text: #000000;
+  --header-text: #000000;
+  --footer-text: #000000;
+
+  --button-color--1: #e0ebfe;
+  --button-color--2: #0e4ecd;
+  --button-color--3: #ff4800;
+  --button-color--4: #cbdcff;
+  --button-color--5: #005dbb;
+  --button-color--6: #6d9bf5;
+
+  --burger-button: #000000;
+  --close-button: #000000;
+  --Go-top-arrow: #ffffff;
+
+  --White-text: #ffffff;
+  --Black-text: #000000;
+
+  --AlwaysWhite-text: #ffffff;
+  --AlwaysBlack-text: #000000;
+
+  --placeholder-text: rgb(138, 138, 138);
+  --banner-highlight-span-text: #ebba35;
+}
+
+[data-theme="dark"] {
+  --header-bg: #161616;
+  --footer-bg: #161616;
+  --container-bg: #161616;
+  --main-bg: #000000;
+
+  --table-bg-1: #252525;
+  --table-bg-2: #1a1a1a;
+
+  --main-text: #ffffff;
+  --header-text: #ffffff;
+  --footer-text: #ffffff;
+
+  --button-color--1: #e0ebfe;
+  --button-color--2: #0e4ecd;
+  --button-color--3: #ff4800;
+  --button-color--4: #525151;
+  --button-color--5: #005dbb;
+  --button-color--6: #6d9bf5;
+
+  --burger-button: #ffffff;
+  --close-button: #ffffff;
+  --Go-top-arrow: #ffffff;
+
+  --White-text: #000000;
+  --Black-text: #ffffff;
+
+  --AlwaysWhite-text: #ffffff;
+  --AlwaysBlack-text: #000000;
+
+  --placeholder-text: rgb(182, 182, 182);
+  --banner-highlight-span-text: #ebba35;
+}

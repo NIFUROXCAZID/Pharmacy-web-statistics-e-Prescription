@@ -1,0 +1,12 @@
+@use "./reset";
+@use "./abstracts/index" as *;
+@use "./common";
+@use "./shared";
+// @use "./header";
+@use "./main";
+@use "./footer";
+@use "./statistics";
+
+@include default-styles;
+
+
