@@ -90,6 +90,10 @@ section > section > div {
         white-space: normal;
         overflow-wrap: anywhere;
 
+        @media (max-width: toEm($huge-mobile-adaptive)) {
+          -webkit-line-clamp: 4;
+        }
+
         &--expanded {
           display: block;
           -webkit-line-clamp: unset;
