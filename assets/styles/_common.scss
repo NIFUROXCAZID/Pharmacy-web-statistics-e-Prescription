@@ -90,7 +90,7 @@ section > section > div {
         white-space: normal;
         overflow-wrap: anywhere;
 
-        @media (max-width: toEm($huge-mobile-adaptive)) {
+        @media (max-width: toEm($huge-mobile-adaptive)), (orientation: landscape) and (max-height: 500px) {
           -webkit-line-clamp: 4;
         }
 
