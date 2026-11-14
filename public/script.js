@@ -22,7 +22,7 @@ function scrollToStart() {
 
 const themeButton = document.querySelector("#theme-toggle");
 const savedTheme = localStorage.getItem("theme");
-const currentTheme = savedTheme || "dark";
+const currentTheme = savedTheme || "light";
 document.documentElement.dataset.theme = currentTheme;
 themeButton.addEventListener("click", () => {
   const currentTheme = document.documentElement.dataset.theme;
