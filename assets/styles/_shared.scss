@@ -52,6 +52,10 @@
     color: var(--AlwaysWhite-text);
     background: var(--button-color--3);
   }
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
 }
 .defaultButton__popupShow.isVisible {
   opacity: 1;
