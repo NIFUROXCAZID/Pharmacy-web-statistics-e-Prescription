@@ -48,9 +48,15 @@
     transition: all 0.6s;
     background-color: #fff;
   }
-  &:hover {
-    color: var(--AlwaysWhite-text);
+  @media (hover: hover) {
+    &:hover {
+      background: var(--button-color--3);
+      color: var(--AlwaysWhite-text);
+    }
+  }
+  &:active {
     background: var(--button-color--3);
+    color: var(--AlwaysWhite-text);
   }
 }
 .defaultButton__popupShow.isVisible {
