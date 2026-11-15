@@ -9,7 +9,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/assets/fonts', express.static(path.join(__dirname, 'assets', 'fonts')));
 app.use('/assets/img', express.static(path.join(__dirname, 'assets', 'img')));
 
-const { getPharmacies } = require('./powerbi');
+const { getPharmacies, getDrugSuggestions, getCitySuggestions } = require('./powerbi');
 
 app.get('/api/pharmacies', async (req, res) => {
 
@@ -73,6 +73,40 @@ app.get('/api/pharmacies', async (req, res) => {
   } catch (error) {
     console.error(error);
     res.status(502).json({ error: 'Не вдалося отримати дані з Power BI' });
+  }
+});
+
+app.get('/api/suggestions/drugs', async (req, res) => {
+  const term = typeof req.query.q === 'string' ? req.query.q.trim() : '';
+
+  if (term.length < 2) return res.json([]);
+
+  if (term.length > 200) {
+    return res.status(400).json({ error: 'Введи до 200 символів.' });
+  }
+
+  try {
+    return res.json(await getDrugSuggestions(term));
+  } catch (error) {
+    console.error(error);
+    return res.status(502).json({ error: 'Не вдалося отримати підказки МНН.' });
+  }
+});
+
+app.get('/api/suggestions/cities', async (req, res) => {
+  const term = typeof req.query.q === 'string' ? req.query.q.trim() : '';
+
+  if (term.length < 2) return res.json([]);
+
+  if (term.length > 100) {
+    return res.status(400).json({ error: 'Введи до 100 символів.' });
+  }
+
+  try {
+    return res.json(await getCitySuggestions(term));
+  } catch (error) {
+    console.error(error);
+    return res.status(502).json({ error: 'Не вдалося отримати підказки міст.' });
   }
 });
 
