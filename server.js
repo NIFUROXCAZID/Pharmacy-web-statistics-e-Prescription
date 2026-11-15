@@ -40,9 +40,17 @@ app.get('/api/pharmacies', async (req, res) => {
   }
 
   const drugId = req.query.drug ?? 'lercanidipine';
-  const drug = drugs.get(drugId);
-  if (!drug) {
-    return res.status(400).json({ error: 'Невідомий препарат' });
+  const customDrugParam = req.query.customDrug;
+  const customDrug = typeof customDrugParam === 'string' ? customDrugParam.trim() : '';
+
+  const drugName = drugId === 'custom'
+    ? customDrug
+    : drugs.get(drugId);
+
+  if (!drugName || drugName.length > 200) {
+    return res.status(400).json({
+      error: 'Вибери препарат або введи МНН як на карті НСЗУ.',
+    });
   }
 
   const limitParam = req.query.limit ?? '250';
@@ -60,7 +68,7 @@ app.get('/api/pharmacies', async (req, res) => {
   }
 
   try {
-    const pharmacies = await getPharmacies(territory, drug, limit, excludedCity);
+    const pharmacies = await getPharmacies(territory, drugName, limit, excludedCity);
     res.json(pharmacies);
   } catch (error) {
     console.error(error);
