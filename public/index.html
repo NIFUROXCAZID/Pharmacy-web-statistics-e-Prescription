@@ -68,7 +68,14 @@
                 </div>
                 <div class="settings__filter-wrap" id="custom-city-field" hidden>
                   <label for="custom-city">Назва як на карті НСЗУ</label>
-                  <input id="custom-city" type="text" maxlength="400" placeholder="м. БОРИСПІЛЬ" />
+                  <input
+                    id="custom-city"
+                    list="city-suggestions"
+                    type="text"
+                    maxlength="400"
+                    placeholder="м. БОРИСПІЛЬ"
+                  />
+                  <datalist id="city-suggestions"></datalist>
                 </div>
               </div>
               <div class="settings__wrap settings__wrap--flex-checkbox" id="region-field" hidden>
@@ -121,7 +128,14 @@
                 </div>
                 <div class="settings__filter-wrap" id="custom-drug-field" hidden>
                   <label for="custom-drug">МНН як на карті НСЗУ</label>
-                  <input id="custom-drug" type="text" maxlength="400" placeholder="амлодипін; раміприл" />
+                  <input
+                    id="custom-drug"
+                    type="text"
+                    maxlength="400"
+                    placeholder="амлодипін; раміприл"
+                    list="drug-suggestions"
+                  />
+                  <datalist id="drug-suggestions"></datalist>
                 </div>
               </div>
               <div class="settings__wrap">
