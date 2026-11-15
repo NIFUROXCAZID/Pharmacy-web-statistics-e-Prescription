@@ -35,6 +35,61 @@ function updateCustomDrugField() {
 drugSelect.addEventListener('change', updateCustomDrugField);
 updateCustomDrugField();
 
+function attachSuggestions(input, list, endpoint) {
+  let timer;
+  let controller;
+
+  input.addEventListener('input', () => {
+    clearTimeout(timer);
+    controller?.abort();
+    list.replaceChildren();
+
+    const term = input.value.trim();
+    if (term.length < 2) return;
+
+    timer = setTimeout(async () => {
+      const request = new AbortController();
+      controller = request;
+      const params = new URLSearchParams({ q: term });
+
+      try {
+        const response = await fetch(`${endpoint}?${params}`, {
+          signal: request.signal,
+        });
+
+        if (!response.ok) return;
+
+        const names = await response.json();
+        if (request.signal.aborted || !Array.isArray(names)) return;
+
+        const options = names.map((name) => {
+          const option = document.createElement('option');
+          option.value = name;
+          return option;
+        });
+
+        list.replaceChildren(...options);
+      } catch (error) {
+        if (error.name !== 'AbortError') {
+          console.warn('Не вдалося завантажити підказки', error);
+        }
+      }
+    }, 80);
+  });
+}
+
+attachSuggestions(
+  customDrugInput,
+  document.querySelector('#drug-suggestions'),
+  '/api/suggestions/drugs',
+);
+
+attachSuggestions(
+  customCityInput,
+  document.querySelector('#city-suggestions'),
+  '/api/suggestions/cities',
+);
+
 modeSelect.addEventListener('change', updateTerritoryFields);
 updateTerritoryFields();
 
