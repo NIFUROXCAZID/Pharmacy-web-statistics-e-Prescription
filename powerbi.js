@@ -82,14 +82,14 @@ const createCommand = (territory, drug, excludedCity) => ({
   ExecutionMetricsKind: 1,
 });
 
-const createBody = (territory, drug, excludedCity) => ({
+const createBody = (command, visualId) => ({
   version: '1.0.0',
   modelId: 2821948,
   cancelQueries: [],
   queries: [
     {
       Query: {
-        Commands: [{ SemanticQueryDataShapeCommand: createCommand(territory, drug, excludedCity) }],
+        Commands: [{ SemanticQueryDataShapeCommand: command }],
       },
       QueryId: '',
       ApplicationContext: {
@@ -97,7 +97,7 @@ const createBody = (territory, drug, excludedCity) => ({
         Sources: [
           {
             ReportId: '8d26c5ae-d2db-4046-a579-d2cf8b356f12',
-            VisualId: '86e21b5ac17ac63d0277',
+            VisualId: visualId,
           },
         ],
       },
@@ -136,14 +136,14 @@ function decodeRows(dataset) {
   });
 }
 
-async function getPharmacies(territory, drug, limit, excludedCity) {
+async function requestPowerBi(body) {
   const response = await fetch(url, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
       'X-PowerBI-ResourceKey': 'df6caff4-2e25-44e3-930c-81f7c38a6399',
     },
-    body: JSON.stringify(createBody(territory, drug, excludedCity)),
+    body: JSON.stringify(body),
     signal: AbortSignal.timeout(15_000),
   });
 
@@ -157,6 +157,13 @@ async function getPharmacies(territory, drug, limit, excludedCity) {
   if (!dataset) {
     throw new Error('Power BI не повернув набір даних');
   }
+
+  return dataset;
+}
+
+async function getPharmacies(territory, drug, limit, excludedCity) {
+  const command = createCommand(territory, drug, excludedCity);
+  const dataset = await requestPowerBi(createBody(command, '86e21b5ac17ac63d0277'));
 
   return decodeRows(dataset)
     .filter((row) => row[0] != null || row[3] != null)
@@ -182,4 +189,76 @@ async function getPharmacies(territory, drug, limit, excludedCity) {
     });
 }
 
-module.exports = { getPharmacies };
+async function getSuggestions(term, { source, entity, property, visualId }) {
+  const field = { Column: column(source, property) };
+  const searchValue = `'${term.replaceAll("'", "''")}'`;
+
+  const command = {
+    Query: {
+      Version: 2,
+      From: [{ Name: source, Entity: entity, Type: 0 }],
+      Select: [{
+        ...field,
+        Name: `${entity}.${property}`,
+        NativeReferenceName: property,
+      }],
+      Where: [
+        {
+          Condition: {
+            Not: {
+              Expression: {
+                Comparison: {
+                  ComparisonKind: 0,
+                  Left: field,
+                  Right: { Literal: { Value: 'null' } },
+                },
+              },
+            },
+          },
+        },
+        {
+          Condition: {
+            Contains: {
+              Left: field,
+              Right: { Literal: { Value: searchValue } },
+            },
+          },
+        },
+      ],
+    },
+    Binding: {
+      Primary: { Groupings: [{ Projections: [0] }] },
+      DataReduction: { DataVolume: 3, Primary: { Window: { Count: 15 } } },
+      IncludeEmptyGroups: true,
+      Version: 1,
+    },
+    ExecutionMetricsKind: 1,
+  };
+
+  const dataset = await requestPowerBi(createBody(command, visualId));
+  const names = decodeRows(dataset)
+    .map(([name]) => name)
+    .filter((name) => typeof name === 'string' && name.length > 0);
+
+  return [...new Set(names)].slice(0, 15);
+}
+
+function getDrugSuggestions(term) {
+  return getSuggestions(term, {
+    source: 'l',
+    entity: 'last_date_dispence',
+    property: 'innms_name',
+    visualId: '4462c2fe862e417240d8',
+  });
+}
+
+function getCitySuggestions(term) {
+  return getSuggestions(term, {
+    source: 'p',
+    entity: 'pharmacy_contract_divisions',
+    property: 'Населений пункт_',
+    visualId: '86e21b5ac17ac63d0277',
+  });
+}
+
+module.exports = { getPharmacies, getDrugSuggestions, getCitySuggestions };
