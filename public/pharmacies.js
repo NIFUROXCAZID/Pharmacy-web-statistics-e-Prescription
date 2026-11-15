@@ -1,4 +1,7 @@
 const button = document.querySelector('#load-pharmacies');
+const downloadButton = document.querySelector('#download-pharmacies');
+let loadedPharmacies = [];
+let loadedPharmacyDetails = null;
 const status = document.querySelector('#status');
 const tbody = document.querySelector('#pharmacy-rows');
 const modeSelect = document.querySelector('#territory-mode');
@@ -155,6 +158,18 @@ button.addEventListener('click', async () => {
       params.set('customDrug', name);
     }
 
+    const isRegionReport = params.has('region');
+
+    const reportDetails = {
+      drug: params.get('customDrug') ?? drugSelect.selectedOptions[0].textContent.trim(),
+      territoryLabel: isRegionReport ? 'Область' : 'Населений пункт',
+      territory: isRegionReport
+        ? regionSelect.selectedOptions[0].textContent.trim()
+        : (params.get('customCity') ?? citySelect.selectedOptions[0].textContent.trim()),
+      isRegion: isRegionReport,
+      excludeCenter: params.get('excludeCenter') === '1',
+    };
+
     const response = await fetch(`/api/pharmacies?${params}`);
 
     if (!response.ok) {
@@ -218,10 +233,99 @@ button.addEventListener('click', async () => {
     });
 
     tbody.replaceChildren(...rows);
+    loadedPharmacies = pharmacies;
+    loadedPharmacyDetails = reportDetails;
+    downloadButton.disabled = pharmacies.length === 0;
     status.textContent = `Знайдено аптек: ${rows.length}`;
   } catch (error) {
     status.textContent = `Не вдалося завантажити аптеки (${error.message}).`;
   } finally {
     button.disabled = false;
+  }
+});
+
+downloadButton.addEventListener('click', async () => {
+  if (loadedPharmacies.length === 0) return;
+
+  downloadButton.disabled = true;
+
+  try {
+    const workbook = new ExcelJS.Workbook();
+    const sheet = workbook.addWorksheet('Аптеки');
+
+    sheet.columns = [
+      { key: 'company', width: 44 },
+      { key: 'name', width: 32 },
+      { key: 'address', width: 55 },
+      { key: 'count', width: 22 },
+      { key: 'date', width: 29 },
+    ];
+
+    const { drug, territoryLabel, territory, isRegion, excludeCenter } = loadedPharmacyDetails;
+
+    const details = [
+      ['Препарат (МНН)', drug],
+      [territoryLabel, territory],
+    ];
+
+    if (isRegion) {
+      details.push(['Без обласного центру?', excludeCenter ? 'ТАК! Без обласного центру.' : 'НІ! З обласним центром.']);
+    }
+
+    for (const values of details) {
+      const row = sheet.addRow(values);
+      sheet.mergeCells(`B${row.number}:E${row.number}`);
+      row.getCell(1).font = { bold: true };
+    }
+
+    const header = sheet.addRow([
+      'Назва аптечного закладу',
+      'Назва місця відпуску',
+      'Адреса місця відпуску',
+      'Погашено за 90 днів',
+      'Останній погашений рецепт',
+    ]);
+
+    header.font = { bold: true };
+    sheet.views = [{ state: 'frozen', ySplit: header.number }];
+
+    for (const pharmacy of loadedPharmacies) {
+      const value = pharmacy.lastDispensedAt;
+      const date = value == null || value === '' ? null : new Date(value);
+
+      sheet.addRow({
+        company: pharmacy.companyName,
+        name: pharmacy.name,
+        address: pharmacy.address,
+        count: pharmacy.count,
+        date: date && Number.isFinite(date.getTime()) ? date : null,
+      });
+    }
+
+    sheet.getColumn('date').numFmt = 'dd.mm.yyyy hh:mm';
+    sheet.getRow(1).font = { bold: true };
+
+    sheet.eachRow((row) => {
+      row.alignment = { vertical: 'middle', wrapText: true };
+    });
+
+    const buffer = await workbook.xlsx.writeBuffer();
+    const file = new Blob([buffer], {
+      type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+    });
+    const url = URL.createObjectURL(file);
+
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = 'Місця-відпуску-ЛЗ.xlsx';
+    document.body.append(link);
+    link.click();
+    link.remove();
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
+  } catch (error) {
+    console.error(error);
+    status.textContent = 'Не вдалося створити файл Excel.';
+  } finally {
+    downloadButton.disabled = loadedPharmacies.length === 0;
   }
 });
