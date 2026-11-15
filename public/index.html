@@ -17,6 +17,7 @@
     <meta property="og:type" content="website" />
     <link rel="icon" href="/assets/img/logos/logo.svg" type="image/svg+xml" />
     <link rel="stylesheet" href="/styles.css" />
+    <script src="https://cdn.jsdelivr.net/npm/exceljs@4.4.0/dist/exceljs.min.js" defer></script>
     <script src="/pharmacies.js" defer></script>
   </head>
   <body>
@@ -152,6 +153,7 @@
             </div>
             <div class="settings-btns">
               <button class="defaultButton" id="load-pharmacies" type="button">Показати аптеки</button>
+              <button class="defaultButton" id="download-pharmacies" type="button" disabled>Скачати таблицю</button>
               <button class="defaultButton" id="theme-toggle" type="button">Змінити тему</button>
             </div>
             <p class="query-info" id="status" role="status"></p>
