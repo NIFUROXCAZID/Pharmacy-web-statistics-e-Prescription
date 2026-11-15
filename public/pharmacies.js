@@ -10,6 +10,8 @@ const excludeCenterInput = document.querySelector('#exclude-center');
 const cityField = document.querySelector('#city-field');
 const regionField = document.querySelector('#region-field');
 const drugSelect = document.querySelector('#drug');
+const customDrugField = document.querySelector('#custom-drug-field');
+const customDrugInput = document.querySelector('#custom-drug');
 const limitSelect = document.querySelector('#limit');
 
 function updateCustomCityField() {
@@ -25,6 +27,13 @@ function updateTerritoryFields() {
   cityField.hidden = isRegion;
   regionField.hidden = !isRegion;
 }
+
+function updateCustomDrugField() {
+  customDrugField.hidden = drugSelect.value !== 'custom';
+}
+
+drugSelect.addEventListener('change', updateCustomDrugField);
+updateCustomDrugField();
 
 modeSelect.addEventListener('change', updateTerritoryFields);
 updateTerritoryFields();
@@ -79,10 +88,23 @@ button.addEventListener('click', async () => {
     params.set('drug', drugSelect.value);
     params.set('limit', limitSelect.value);
 
+    if (drugSelect.value === 'custom') {
+      const name = customDrugInput.value.trim();
+
+      if (!name) {
+        status.textContent = 'Введи назву лікарського засобу (МНН).';
+        customDrugInput.focus();
+        return;
+      }
+
+      params.set('customDrug', name);
+    }
+
     const response = await fetch(`/api/pharmacies?${params}`);
 
     if (!response.ok) {
-      throw new Error(`HTTP ${response.status}`);
+      const errorData = await response.json().catch(() => null);
+      throw new Error(errorData?.error || `HTTP ${response.status}`);
     }
 
     const pharmacies = await response.json();
