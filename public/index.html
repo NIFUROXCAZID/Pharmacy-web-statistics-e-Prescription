@@ -38,15 +38,15 @@
                   <label for="city">Місто</label>
                   <select id="city">
                     <option value="custom" selected>Інший населений пункт…</option>
-                    <option value="kremenchuk">Кременчук</option>
-                    <option value="horishni-plavni">Горішні Плавні</option>
-                    <option value="kyiv">Київ</option>
                     <option value="vinnytsia">Вінниця</option>
+                    <option value="horishni-plavni">Горішні Плавні</option>
                     <option value="dnipro">Дніпро</option>
                     <option value="donetsk">Донецьк</option>
                     <option value="zhytomyr">Житомир</option>
                     <option value="zaporizhzhia">Запоріжжя</option>
                     <option value="ivano-frankivsk">Івано-Франківськ</option>
+                    <option value="kyiv">Київ</option>
+                    <option value="kremenchuk">Кременчук</option>
                     <option value="kropyvnytskyi">Кропивницький</option>
                     <option value="luhansk">Луганськ</option>
                     <option value="lutsk">Луцьк</option>
@@ -68,14 +68,13 @@
                 </div>
                 <div class="settings__filter-wrap" id="custom-city-field" hidden>
                   <label for="custom-city">Назва як на карті НСЗУ</label>
-                  <input id="custom-city" type="text" maxlength="200" placeholder="м. БОРИСПІЛЬ" />
+                  <input id="custom-city" type="text" maxlength="400" placeholder="м. БОРИСПІЛЬ" />
                 </div>
               </div>
               <div class="settings__wrap settings__wrap--flex-checkbox" id="region-field" hidden>
                 <div class="settings__filter-wrap">
                   <label for="region">Область</label>
                   <select id="region">
-                    <option value="poltavska" selected>Полтавська область</option>
                     <option value="vinnytska">Вінницька область</option>
                     <option value="volynska">Волинська область</option>
                     <option value="dnipropetrovska">Дніпропетровська область</option>
@@ -90,6 +89,7 @@
                     <option value="lvivska">Львівська область</option>
                     <option value="mykolaivska">Миколаївська область</option>
                     <option value="odeska">Одеська область</option>
+                    <option value="poltavska" selected>Полтавська область</option>
                     <option value="rivnenska">Рівненська область</option>
                     <option value="sumska">Сумська область</option>
                     <option value="ternopilska">Тернопільська область</option>
@@ -106,16 +106,23 @@
                   <input class="settings__checkbox" id="exclude-center" type="checkbox" />
                 </div>
               </div>
-              <div class="settings__wrap">
-                <label for="drug">Препарат</label>
-                <select id="drug">
-                  <option value="lercanidipine" selected>Лерканідипін</option>
-                  <option value="eplerenone">Еплеренон</option>
-                  <option value="indapamide-perindopril">Індапамід + периндоприл</option>
-                  <option value="amlodipine-indapamide-perindopril">Амлодипін + індапамід + периндоприл</option>
-                  <option value="ezetimibe-rosuvastatin">Езетиміб + розувастатин</option>
-                  <option value="aspirin-rosuvastatin">Ацетилсаліцилова кислота + розувастатин</option>
-                </select>
+              <div class="settings__wrap settings__wrap--flex">
+                <div class="settings__filter-wrap">
+                  <label for="drug">Препарат</label>
+                  <select id="drug">
+                    <option value="lercanidipine" selected>Лерканідипін</option>
+                    <option value="eplerenone">Еплеренон</option>
+                    <option value="indapamide-perindopril">Індапамід + периндоприл</option>
+                    <option value="amlodipine-indapamide-perindopril">Амлодипін + індапамід + периндоприл</option>
+                    <option value="ezetimibe-rosuvastatin">Езетиміб + розувастатин</option>
+                    <option value="aspirin-rosuvastatin">Ацетилсаліцилова кислота + розувастатин</option>
+                    <option value="custom">Інша група ліків…</option>
+                  </select>
+                </div>
+                <div class="settings__filter-wrap" id="custom-drug-field" hidden>
+                  <label for="custom-drug">МНН як на карті НСЗУ</label>
+                  <input id="custom-drug" type="text" maxlength="400" placeholder="амлодипін; раміприл" />
+                </div>
               </div>
               <div class="settings__wrap">
                 <label for="limit">Показати</label>
