@@ -67,8 +67,13 @@ app.get('/api/pharmacies', async (req, res) => {
     return res.status(500).json({ error: 'Для цієї області не задано обласний центр' });
   }
 
+  const sort = req.query.sort ?? 'count';
+  if (sort !== 'count' && sort !== 'latest') {
+    return res.status(400).json({ error: 'Невідомий спосіб сортування.' });
+  }
+
   try {
-    const pharmacies = await getPharmacies(territory, drugName, limit, excludedCity);
+    const pharmacies = await getPharmacies(territory, drugName, limit, excludedCity, sort);
     res.json(pharmacies);
   } catch (error) {
     console.error(error);
