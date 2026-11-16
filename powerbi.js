@@ -36,7 +36,7 @@ function excludeCityFilter(city) {
   };
 }
 
-const createCommand = (territory, drug, excludedCity) => ({
+const createCommand = (territory, drug, excludedCity, sort) => ({
   Query: {
     Version: 2,
     From: [
@@ -71,7 +71,12 @@ const createCommand = (territory, drug, excludedCity) => ({
       filter('l', 'innms_name', drug),
       ...(excludedCity ? [excludeCityFilter(excludedCity)] : []),
     ],
-    OrderBy: [{ Direction: 2, Expression: measure('d', 'cnt_dispensed') }],
+    OrderBy: [{
+      Direction: 2,
+      Expression: sort === 'latest'
+        ? measure('l', 'max_date')
+        : measure('d', 'cnt_dispensed'),
+    }],
   },
   Binding: {
     Primary: { Groupings: [{ Projections: [0, 1, 2, 3, 4, 5, 6, 7, 8] }] },
@@ -161,8 +166,8 @@ async function requestPowerBi(body) {
   return dataset;
 }
 
-async function getPharmacies(territory, drug, limit, excludedCity) {
-  const command = createCommand(territory, drug, excludedCity);
+async function getPharmacies(territory, drug, limit, excludedCity, sort = 'count') {
+  const command = createCommand(territory, drug, excludedCity, sort);
   const dataset = await requestPowerBi(createBody(command, '86e21b5ac17ac63d0277'));
 
   return decodeRows(dataset)
