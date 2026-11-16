@@ -110,6 +110,10 @@ app.get('/api/suggestions/cities', async (req, res) => {
   }
 });
 
-app.listen(PORT, '0.0.0.0', () => {
-  console.log(`Сервер працює на порту ${PORT}`);
-});
+if (require.main === module) {
+  app.listen(PORT, '0.0.0.0', () => {
+    console.log(`Сервер працює на порту ${PORT}`);
+  });
+}
+
+module.exports = app;
