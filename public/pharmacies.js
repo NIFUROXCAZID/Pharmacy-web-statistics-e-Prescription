@@ -16,6 +16,7 @@ const drugSelect = document.querySelector('#drug');
 const customDrugField = document.querySelector('#custom-drug-field');
 const customDrugInput = document.querySelector('#custom-drug');
 const limitSelect = document.querySelector('#limit');
+const sortSelect = document.querySelector('#sort');
 
 function updateCustomCityField() {
   customCityField.hidden = citySelect.value !== 'custom';
@@ -145,6 +146,7 @@ button.addEventListener('click', async () => {
 
     params.set('drug', drugSelect.value);
     params.set('limit', limitSelect.value);
+    params.set('sort', sortSelect.value);
 
     if (drugSelect.value === 'custom') {
       const name = customDrugInput.value.trim();
