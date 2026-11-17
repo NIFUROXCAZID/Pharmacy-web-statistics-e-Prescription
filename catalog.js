@@ -9,6 +9,7 @@ const cities = new Map([
   ['zaporizhzhia', 'м. ЗАПОРІЖЖЯ'],
   ['ivano-frankivsk', 'м. ІВАНО-ФРАНКІВСЬК'],
   ['kropyvnytskyi', 'м. КРОПИВНИЦЬКИЙ'],
+  ['kryvyi-rih', 'м. КРИВИЙ РІГ'],
   ['luhansk', 'м. ЛУГАНСЬК'],
   ['lutsk', 'м. ЛУЦЬК'],
   ['lviv', 'м. ЛЬВІВ'],
