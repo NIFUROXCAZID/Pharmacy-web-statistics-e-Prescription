@@ -3,6 +3,7 @@ const cities = new Map([
   ['horishni-plavni', 'м. ГОРІШНІ ПЛАВНІ'],
   ['kyiv', 'м. КИЇВ'],
   ['vinnytsia', 'м. ВІННИЦЯ'],
+  ['bila-tserkva', 'м. БІЛА ЦЕРКВА'],
   ['dnipro', 'м. ДНІПРО'],
   ['donetsk', 'м. ДОНЕЦЬК'],
   ['zhytomyr', 'м. ЖИТОМИР'],

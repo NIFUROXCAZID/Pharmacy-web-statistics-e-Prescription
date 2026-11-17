@@ -25,8 +25,15 @@
       <main class="main">
         <div class="main__container">
           <section>
-            <h2>Місця відпуску ЛЗ за електронним e-Рецептом</h2>
+            <h2 class="dots-cut">Місця відпуску ЛЗ за електронним e-Рецептом</h2>
             <div class="settings">
+              <div class="settings__wrap">
+                <label for="sort">Сортувати за</label>
+                <select id="sort">
+                  <option value="count" selected>Погашеними рецептами</option>
+                  <option value="latest">Останнім оновленням</option>
+                </select>
+              </div>
               <div class="settings__wrap">
                 <label for="territory-mode">Шукати за</label>
                 <select id="territory-mode">
@@ -39,6 +46,7 @@
                   <label for="city">Місто</label>
                   <select id="city">
                     <option value="custom" selected>Інший населений пункт…</option>
+                    <option value="bila-tserkva">Біла Церква</option>
                     <option value="vinnytsia">Вінниця</option>
                     <option value="horishni-plavni">Горішні Плавні</option>
                     <option value="dnipro">Дніпро</option>
@@ -151,52 +159,49 @@
                   <option value="500">До 500</option>
                 </select>
               </div>
-              <div class="settings__wrap">
-                <label for="sort">Сортувати за</label>
-                <select id="sort">
-                  <option value="count" selected>Кількістю погашених рецептів</option>
-                  <option value="latest">Датою останнього погашення</option>
-                </select>
-              </div>
             </div>
             <div class="settings-btns">
-              <button class="defaultButton" id="load-pharmacies" type="button">Показати аптеки</button>
-              <button class="defaultButton" id="download-pharmacies" type="button" disabled>Скачати таблицю</button>
-              <button class="defaultButton" id="theme-toggle" type="button">Змінити тему</button>
+              <button class="defaultButton" id="load-pharmacies" type="button"><span>Показати аптеки</span></button>
+              <button class="defaultButton" id="download-pharmacies" type="button" disabled>
+                <span>Скачати таблицю</span>
+              </button>
+              <button class="defaultButton defaultButton--theme-btn" id="theme-toggle" type="button">
+                <div class="icon_sun"></div>
+                <span>/</span>
+                <div class="icon_IcoMoon"></div>
+              </button>
             </div>
             <p class="query-info" id="status" role="status"></p>
             <figure>
               <table>
                 <thead>
-                  <thead>
-                    <tr id="pharmacy-heading">
-                      <th scope="col">
-                        <button type="button" class="table-text-button" aria-expanded="true">
-                          <span class="table-text">Назва аптечного закладу</span>
-                        </button>
-                      </th>
-                      <th scope="col">
-                        <button type="button" class="table-text-button" aria-expanded="true">
-                          <span class="table-text">Назва місця відпуску</span>
-                        </button>
-                      </th>
-                      <th scope="col">
-                        <button type="button" class="table-text-button" aria-expanded="true">
-                          <span class="table-text">Адреса місця відпуску</span>
-                        </button>
-                      </th>
-                      <th scope="col">
-                        <button type="button" class="table-text-button" aria-expanded="true">
-                          <span class="table-text">Погашено за 90 днів</span>
-                        </button>
-                      </th>
-                      <th scope="col">
-                        <button type="button" class="table-text-button" aria-expanded="true">
-                          <span class="table-text">Останній погашений рецепт</span>
-                        </button>
-                      </th>
-                    </tr>
-                  </thead>
+                  <tr id="pharmacy-heading">
+                    <th scope="col">
+                      <button type="button" class="table-text-button" aria-expanded="true">
+                        <span class="table-text">Назва аптечного закладу</span>
+                      </button>
+                    </th>
+                    <th scope="col">
+                      <button type="button" class="table-text-button" aria-expanded="true">
+                        <span class="table-text">Назва місця відпуску</span>
+                      </button>
+                    </th>
+                    <th scope="col">
+                      <button type="button" class="table-text-button" aria-expanded="true">
+                        <span class="table-text">Адреса місця відпуску</span>
+                      </button>
+                    </th>
+                    <th scope="col">
+                      <button type="button" class="table-text-button" aria-expanded="true">
+                        <span class="table-text">Погашено за 90 днів</span>
+                      </button>
+                    </th>
+                    <th scope="col">
+                      <button type="button" class="table-text-button" aria-expanded="true">
+                        <span class="table-text">Останній погашений рецепт</span>
+                      </button>
+                    </th>
+                  </tr>
                 </thead>
                 <tbody id="pharmacy-rows"></tbody>
               </table>

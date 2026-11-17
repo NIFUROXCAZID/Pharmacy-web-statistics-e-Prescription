@@ -33,6 +33,19 @@
     background: var(--button-color--3);
     padding: toRem(6) toRem(20);
   }
+  &--theme-btn {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    column-gap: toRem(4);
+    min-width: toRem(60);
+    @media (max-width: toEm(366)) {
+      column-gap: toRem(4);
+      min-width: toRem(40) !important;
+      padding: toRem(10) toRem(5);
+    }
+  }
   &__popupShow {
     position: absolute;
     z-index: 100;
@@ -55,6 +68,27 @@
   &:disabled {
     opacity: 0.5;
     cursor: not-allowed;
+  }
+  @media (max-width: toEm($huge-mobile-adaptive)) {
+    min-width: toRem(60);
+  }
+  @media (max-width: toEm(472)) {
+    font-weight: 700;
+    font-size: toRem(12);
+    line-height: toRem(12);
+    padding: toRem(10) toRem(5);
+    width: auto;
+    min-width: toRem(60);
+    max-width: 100%;
+  }
+  @media (max-width: toEm(366)) {
+    font-weight: 500;
+    font-size: toRem(12);
+    line-height: toRem(12);
+    padding: toRem(10) toRem(1);
+    width: auto;
+    min-width: toRem(60);
+    max-width: 100%;
   }
 }
 .defaultButton__popupShow.isVisible {
@@ -147,8 +181,8 @@
     }
   }
   &__checkbox {
-    width: 30px;
-    height: 30px;
+    width: toRem(30);
+    height: toRem(30);
   }
   // .messege__textarea
   &__textarea {

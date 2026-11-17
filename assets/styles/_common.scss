@@ -110,6 +110,7 @@ section > section > div {
         color: inherit;
         text-align: inherit;
         cursor: pointer;
+        user-select: text;
         &:focus-visible {
           outline: 2px solid currentColor;
           outline-offset: 2px;

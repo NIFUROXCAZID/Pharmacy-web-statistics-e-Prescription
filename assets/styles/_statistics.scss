@@ -1,5 +1,9 @@
 @use "./abstracts/index" as *;
 
+// @media (max-width: toEm($huge-mobile-adaptive)) {
+//       flex: 0 1 100%;
+// }
+
 .settings {
   display: flex;
   flex-wrap: wrap;
@@ -15,6 +19,9 @@
       font-size: toRem(16);
       color: var(--main-text);
       margin-bottom: toRem(4);
+      @media (max-width: toEm(420)) {
+        font-size: toRem(13);
+      }
     }
     & select,
     & input {
@@ -110,6 +117,9 @@
   row-gap: toRem(8);
   margin-top: toRem(8);
   margin-bottom: toRem(8);
+  @media (max-width: toEm($huge-mobile-adaptive)) {
+    column-gap: toRem(8);
+  }
 }
 .query-info {
   margin-bottom: toRem(4);
@@ -119,4 +129,19 @@
   font-size: toRem(16);
   line-height: toRem(16);
   // text-align: center;
+}
+
+.dots-cut {
+  @media (max-width: toEm($huge-mobile-adaptive)) {
+    font-size: toRem(18);
+    line-height: toRem(18);
+  }
+  @media (max-width: toEm(434)) {
+    font-size: toRem(15);
+    line-height: toRem(15);
+  }
+  @media (max-width: toEm(360)) {
+    font-size: toRem(13);
+    line-height: toRem(13);
+  }
 }
