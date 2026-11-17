@@ -145,3 +145,9 @@
     line-height: toRem(13);
   }
 }
+.med-select {
+  @media (max-width: toEm(380)) {
+    width: auto;
+    max-width: toRem(220) !important;
+  }
+}
