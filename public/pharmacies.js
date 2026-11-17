@@ -170,6 +170,9 @@ button.addEventListener('click', async () => {
         : (params.get('customCity') ?? citySelect.selectedOptions[0].textContent.trim()),
       isRegion: isRegionReport,
       excludeCenter: params.get('excludeCenter') === '1',
+      sort: params.get('sort') === 'latest'
+        ? 'Датою останнього погашеного рецепта — від найновіших'
+        : 'Кількістю погашених рецептів за 90 днів — від найбільшої',
     };
 
     const response = await fetch(`/api/pharmacies?${params}`);
@@ -274,6 +277,7 @@ downloadButton.addEventListener('click', async () => {
       details.push(['Без обласного центру?', excludeCenter ? 'ТАК! Без обласного центру.' : 'НІ! З обласним центром.']);
     }
 
+    details.push(['Посортовано за', loadedPharmacyDetails.sort]);
     for (const values of details) {
       const row = sheet.addRow(values);
       sheet.mergeCells(`B${row.number}:E${row.number}`);
